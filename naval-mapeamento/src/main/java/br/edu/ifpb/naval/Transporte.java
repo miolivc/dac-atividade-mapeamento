@@ -1,14 +1,19 @@
-
 package br.edu.ifpb.naval;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -18,9 +23,9 @@ import javax.persistence.TemporalType;
  * @mail miolivc@outlook.com
  * @since 19/10/2017
  */
-
 @Entity
 public class Transporte implements Serializable {
+
     @Id
     @OneToOne(cascade = CascadeType.PERSIST)
     private Navio navio;
@@ -28,8 +33,10 @@ public class Transporte implements Serializable {
     @OneToOne(cascade = CascadeType.PERSIST)
     private Carga carga;
     @Id
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Produto produto; 
+    @OneToMany(cascade = CascadeType.PERSIST)
+//    @CollectionTable
+//    @ElementCollection
+    private List<Produto> produtos;
     @Column(columnDefinition = "TIMESTAMP")
     @Temporal(TemporalType.DATE)
     private Date data;
@@ -40,8 +47,14 @@ public class Transporte implements Serializable {
     }
 
     public Transporte(Navio navio, Carga carga, Date data, double valor) {
+        this.produtos = new ArrayList<>();
         this.navio = navio;
         this.carga = carga;
+        this.data = data;
+        this.valor = valor;
+    }
+
+    public Transporte(Date data, double valor) {
         this.data = data;
         this.valor = valor;
     }
@@ -62,12 +75,12 @@ public class Transporte implements Serializable {
         this.carga = carga;
     }
 
-    public Produto getProdutos() {
-        return produto;
+    public List<Produto> getProdutos() {
+        return produtos;
     }
 
-    public void setProdutos(Produto produtos) {
-        this.produto = produtos;
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     public Date getData() {
@@ -85,5 +98,10 @@ public class Transporte implements Serializable {
     public void setValor(double valor) {
         this.valor = valor;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Transporte{" + "navio=" + navio + ", carga=" + carga + ", produtos=" + produtos + ", data=" + data + ", valor=" + valor + '}';
+    }
+
 }

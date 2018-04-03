@@ -23,9 +23,9 @@ public class Produto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "produto_seq")
     private int codProduto;
-    @Column(length = 30, nullable = false, unique = true)
+    @Column(length = 30, nullable = false)
     private String categoria;
-    @Column(length = 45, insertable = false, unique = true)
+    @Column(length = 45, nullable = false)
     private String nome;
 
     public Produto() {
@@ -59,7 +59,10 @@ public class Produto implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Produto{" + "codProduto=" + codProduto + ", categoria=" + categoria + ", nome=" + nome + '}';
+    }
+   
 }

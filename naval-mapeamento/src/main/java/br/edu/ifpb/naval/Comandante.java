@@ -2,11 +2,14 @@
 package br.edu.ifpb.naval;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 /**
@@ -26,11 +29,15 @@ public class Comandante implements Serializable {
     private String nome;
     @Column(length = 20, nullable = false)
     private String pais;
+    @OneToMany
+    private List<Navio> navios;
     
     public Comandante() {
+        this.navios = new ArrayList<>();
     }
 
     public Comandante(String nome, String pais) {
+        this.navios = new ArrayList<>();
         this.nome = nome;
         this.pais = pais;
     }
@@ -49,6 +56,14 @@ public class Comandante implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public List<Navio> getNavios() {
+        return navios;
+    }
+
+    public void setNavios(List<Navio> navios) {
+        this.navios = navios;
     }
 
     public String getPais() {
